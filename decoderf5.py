@@ -1,6 +1,4 @@
-import json
-import math
-from datetime import datetime
+import json, math, time
 
 def twos_complement(value, bits):
     if (value & (1 << (bits - 1))) != 0:
@@ -133,7 +131,7 @@ class Df5Decoder(object):
                         }
                     ], 
                     "device": self._get_mac(byte_data),
-                    "timestamp": int(datetime.now().time().strftime("%Y%m%d%H%M%S"))
+                    "timestamp": int(time.time())
                 }
             return json.dumps(j)
 

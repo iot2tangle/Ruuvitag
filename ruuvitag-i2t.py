@@ -1,5 +1,5 @@
 import sys, threading, time, json
-from datetime import datetime
+#from datetime import datetime
 sys.path.insert(1, './i2t-lib')
 from iot2tangle import Bundle, Sender
 from bluepy.btle import Scanner, DefaultDelegate
@@ -20,16 +20,12 @@ dec = Df5Decoder()	# Decoder init
 
 def foo():
 	global count
-	count =+ 1
+	count = count + 1
 	print("Data Collect " + str(count))
 	print (" BUNDLE: " + str(bundle.get_json()) + "\n\n\t\tSending Data to Tangle...")
-
 	Sender(bundle.get_json()).send_HTTP(http_url)
 
 	time.sleep(1)
-
-def timestamp():
-	return int(datetime.now().time().strftime("%Y%m%d%H%M%S"))
 
 def int_from_bytes(xbytes: bytes) -> int:
     return int.from_bytes(xbytes, 'big')
@@ -54,7 +50,7 @@ print("\n						----  RUUVITAG -- IOT2TANGLE  ----")
 print(" Collecting the first data...\n")
 
 while True:
-	if ( timestamp() % interval ):
+	if ( int(time.time()) % interval ):
 		scanner.process(1)		# Timeout 1 second
 	else:
 		foo()
