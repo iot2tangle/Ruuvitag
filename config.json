@@ -1,0 +1,8 @@
+{
+    "MAC-Ruuvitag-devices": [
+        "DEVICE_ID_1",
+        "DEVICE_ID_2"
+    ],
+    "HTTP-address": "http://0.0.0.0:8080/bundle_data",
+    "interval": 30
+}

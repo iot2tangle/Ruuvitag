@@ -21,7 +21,7 @@ class ScanDelegate(DefaultDelegate):
 		if (dev.addr == "c5:95:16:e1:1e:ba"):
 		
 			dec = Df5Decoder()
-			data = dec.decode_data(dev.rawData)
+			data = dec.json_i2t(dev.rawData)
 
 			print(datetime.now().time(), data, dev.addr)
 			scanner.clear()
@@ -37,5 +37,3 @@ while True:
 		scanner.process(1)		# Timeout 1 second
 	else:
 		foo()
-		
-    

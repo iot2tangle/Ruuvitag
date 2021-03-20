@@ -1,4 +1,6 @@
+import json
 import math
+from datetime import datetime
 
 def twos_complement(value, bits):
     if (value & (1 << (bits - 1))) != 0:
@@ -87,32 +89,54 @@ class Df5Decoder(object):
         return measurementSequenceNumber
 
     def _get_mac(self, data):
-        return ''.join('{:02x}'.format(x) for x in data[25:31])
+        return ':'.join('{:02x}'.format(x) for x in data[25:31])
 
-    def decode_data(self, data):
-        """
-        Decode sensor data.
-
-        Returns:
-            dict: Sensor values
-        """
+    def json_i2t(self, data):    
         try:
-            byte_data = [ x for x in data ] # integer list 
+            byte_data = [ x for x in data ] # integer list
             acc_x, acc_y, acc_z = self._get_acceleration(byte_data)
-            return {
-                'data_format': 5,
-                'humidity': self._get_humidity(byte_data),
-                'temperature': self._get_temperature(byte_data),
-                'pressure': self._get_pressure(byte_data),
-                'acceleration_x': acc_x,
-                'acceleration_y': acc_y,
-                'acceleration_z': acc_z,
-                'tx_power': self._get_txpower(byte_data),
-                'battery': self._get_battery(byte_data),
-                'movement_counter': self._get_movementcounter(byte_data),
-                'measurement_sequence_number': self._get_measurementsequencenumber(byte_data),
-                'mac': self._get_mac(byte_data)
-            }
+            j = { 
+                    "iot2tangle": 
+                    [    
+                        { 
+                            "sensor": "Environmental", 
+                            "data": 
+                            [ 
+                                { "Temperature": str(self._get_temperature(byte_data)) },
+                                { "Humidity": str(self._get_humidity(byte_data)) },
+                                { "Pressure": str(self._get_pressure(byte_data)) }
+                            ] 
+                        },
+                        { 
+                            "sensor": "Accelerometer", 
+                            "data": 
+                            [ 
+                                { "x": str(acc_x) }, 
+                                { "y": str(acc_y) }, 
+                                { "z": str(acc_z) } 
+                            ] 
+                        },
+                        { 
+                            "sensor": "Power", 
+                            "data": 
+                            [ 
+                                { "Voltage": str(self._get_battery(byte_data)) }
+                            ] 
+                        },
+                        { 
+                            "sensor": "Others", 
+                            "data": 
+                            [ 
+                                { "MovementCounter": str(self._get_movementcounter(byte_data)) }, 
+                                { "TXpower": str(self._get_txpower(byte_data)) }
+                            ] 
+                        }
+                    ], 
+                    "device": self._get_mac(byte_data),
+                    "timestamp": int(datetime.now().time().strftime("%Y%m%d%H%M%S"))
+                }
+            return json.dumps(j)
+
         except Exception:
             print('Error - Ruuvi Data Value: is not valid')
             return None
