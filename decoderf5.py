@@ -1,4 +1,4 @@
-import json, math, time
+import json, math, time, sys
 
 def twos_complement(value, bits):
     if (value & (1 << (bits - 1))) != 0:
@@ -19,6 +19,13 @@ class Df5Decoder(object):
     Protocol specification:
     https://github.com/ruuvi/ruuvi-sensor-protocols
     """
+
+    def _get_data_format(self, data):
+        """Return Data Format"""
+        if data[7] == 0x7FFF:
+            return None
+
+        return data[7]
 
     def _get_temperature(self, data):
         """Return temperature in celsius"""
@@ -92,6 +99,15 @@ class Df5Decoder(object):
     def json_i2t(self, data):    
         try:
             byte_data = [ x for x in data ] # integer list
+
+            if ( self._get_data_format(byte_data) != 5):
+                print("  ERROR: One of your Ruuvitag uses the obsolete 'Data Format " +
+                            str(self._get_data_format(byte_data)) +
+                            "', please update the official firmware of your Ruuvitag '" +
+                            self._get_mac(byte_data) + "' on the following web page: https://lab.ruuvi.com/dfu"
+                            "       --      Only accepted 'Data Format 5' (RAWv2)")
+                sys.exit()
+
             acc_x, acc_y, acc_z = self._get_acceleration(byte_data)
             j = { 
                     "iot2tangle": 
