@@ -3,6 +3,6 @@
         "c5:95:16:e1:1e:ba",
         "DEVICE_ID_2"
     ],
-    "HTTP-address": "http://0.0.0.0:8080/bundle_data",
-    "interval": 30
+    "HTTP-address": "http://192.168.1.116:8080/bundle_data",
+    "interval": 20
 }

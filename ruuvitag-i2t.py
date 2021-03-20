@@ -12,14 +12,21 @@ device_names = config_json['MAC-Ruuvitag-devices']
 http_url = config_json['HTTP-address']
 interval = config_json['interval']
 ###############################
+count = 0
 
-bundle = Bundle(device_names)
+bundle = Bundle(device_names) # Bundle init
 
-dec = Df5Decoder()	# Decoder Init
+dec = Df5Decoder()	# Decoder init
 
 def foo():
-    print(bundle.get_json())
-    time.sleep(1)
+	global count
+	count =+ 1
+	print("Data Collect " + str(count))
+	print (" BUNDLE: " + str(bundle.get_json()) + "\n\n\t\tSending Data to Tangle...")
+
+	Sender(bundle.get_json()).send_HTTP(http_url)
+
+	time.sleep(1)
 
 def timestamp():
 	return int(datetime.now().time().strftime("%Y%m%d%H%M%S"))
@@ -43,9 +50,11 @@ class ScanDelegate(DefaultDelegate):
 scanner = Scanner().withDelegate(ScanDelegate())
 scanner.start()
 #########################
+print("\n						----  RUUVITAG -- IOT2TANGLE  ----")
+print(" Collecting the first data...\n")
 
 while True:
-	if (timestamp()%20):
+	if ( timestamp() % interval ):
 		scanner.process(1)		# Timeout 1 second
 	else:
 		foo()
