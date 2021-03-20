@@ -2,6 +2,14 @@ from datetime import datetime
 from bluepy.btle import Scanner, DefaultDelegate
 import threading, time
 from decoderf5 import Df5Decoder
+import json
+
+### LOAD 'config.json' FILE ###
+config_json = json.load(open("config.json"))
+device_name = config_json['MAC-Ruuvitag-devices']
+http_url = config_json['HTTP-address']
+interval = config_json['interval']
+###############################
 
 def foo():
     print("Interrupcion")
@@ -18,8 +26,7 @@ class ScanDelegate(DefaultDelegate):
 		DefaultDelegate.__init__(self)
 
 	def handleDiscovery(self, dev, isNewDev, isNewData):
-		if (dev.addr == "c5:95:16:e1:1e:ba"):
-		
+		if (any(dev.addr == i for i in device_name)):
 			dec = Df5Decoder()
 			data = dec.json_i2t(dev.rawData)
 
@@ -27,10 +34,10 @@ class ScanDelegate(DefaultDelegate):
 			scanner.clear()
 			scanner.start()
 
-
+### Start BLE Scanner ###
 scanner = Scanner().withDelegate(ScanDelegate())
 scanner.start()
-
+#########################
 
 while True:
 	if (timestamp()%20):
