@@ -9,6 +9,7 @@ from decoderf5 import Df5Decoder
 ### LOAD 'config.json' FILE ###
 config_json = json.load(open("config.json"))
 device_names = config_json['MAC-Ruuvitag-devices']
+device_names = [ x.lower() for x in device_names ] # lowercase te MACs
 http_url = config_json['HTTP-address']
 interval = config_json['interval']
 ###############################
