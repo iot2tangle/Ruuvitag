@@ -41,7 +41,7 @@ Edit ***config.json** file, add the ***MAC addresses*** **\*** of all your *Ruuv
         "yy:yy:yy:yy:yy:yy",
         "zz:zz:zz:zz:zz:zz"
     ],
-    "HTTP-address": "http://192.168.1.116:8080/bundle_data",
+    "HTTP-address": "http://YOUR_STREAMS_GATEWAY:8080/bundle_data",
     "interval": 30
 ```
 **\*** *To consult the MAC addresses of the devices, we recommend nRF Connect (free OpenSource software) of NordicSemiconductor available in Desktop: on Windows, macOS and Linux. and in Mobile: on Android and iOS (The mobile version is very simple and more comfortable to debug).* 
