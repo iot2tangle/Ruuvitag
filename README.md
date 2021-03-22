@@ -4,6 +4,8 @@ The **Ruuvitag** is a OpenSource Bluetooth BLE beacon with several sensors. Is e
 
 This Repository contains the source code and the steps to follow to be able to obtain data from all the ***Ruuvitag*** that you have in your environment and send it, in an organized way, to the ***Tangle***, ***DLT*** of the **[IOTA Network](https://www.iota.org/)** through the **[Streams](https://www.iota.org/solutions/streams)** layer.
 
+<p align="center"> <img src="https://i.postimg.cc/HnM5hHT2/Screenshot-from-2021-03-22-14-50-07.png" width="320">.
+
 ## Setting up your Ruuvitag Devices
 
 It is necessary to have a computer with a Bluetooth adapter that supports BLE (Bluetooth 4.0 or 5.0), here the code will be executed that will collect all the data from the Ruuvitags and then send it to the Gateway. A Raspberry Pi can also be used for this.
