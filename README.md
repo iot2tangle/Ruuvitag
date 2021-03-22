@@ -55,7 +55,7 @@ After this, the code will be in charge of collecting all the Ruuvitags from your
 
 The following capture shows the system collecting data from one Ruuvitag and sending data to Tangle:
 
-![CISS sending data to the Tangle](https://i.postimg.cc/8c1C1sFv/CISS-sending.png)
+![Sending data to the Tangle](https://i.postimg.cc/MT1pf5q9/Screenshot-from-2021-03-21-23-34-22.png)
 	
 # Setting up the Streams HTTP Gateway
 
